@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
+
 # The location of the file.txt you want to split
-LIST = ""
+LIST = input("Enter the path to the list you wish to split: ")
 
 #Where you want to save the files
-SAVE_LOCATION = ""
+SAVE_LOCATION = input("Enter the Location you wish to save all the files: ")
 
 # Creating a list from the file
 with open(LIST, "r") as n:
