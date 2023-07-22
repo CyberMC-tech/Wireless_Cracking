@@ -1,0 +1,105 @@
+#!/usr/bin/env python3
+import sys
+import os
+
+
+global lists
+lists = []
+
+
+def create_list(file):
+    list = []
+    with open(file, "r") as opened_file:
+        for i in opened_file.readlines():
+            i = i.strip()
+            list.append(i)
+
+    return list
+
+
+def create_num_list(range, start=0):
+    list = []
+    while start <= range:
+        list.append(start)
+        start += 1
+
+    return list
+
+
+def add_zeros(length, list):
+    new_list = []
+    for i in list:
+        if len(str(i)) < length:
+            needed_zeros = length - len(str(i))
+            new_number = "0" * needed_zeros + str(i)
+            new_list.append(new_number)
+        else:
+            new_list.append(i)
+
+    return new_list
+
+
+def run_merge(list1, list2):
+    list = []
+    for i1 in list1:
+        for i2 in list2:
+            list.append(str(i1) + str(i2))
+    return list
+
+
+def merge_lists(*args):
+    master_list = []
+    num_args = len(args)
+    loop = 1
+
+    while loop < num_args:
+        if loop > 1:
+            list1 = master_list
+        else:
+            list1 = args[0]
+        list2 = args[loop]
+        merge = run_merge(list1, list2)
+        master_list = merge
+        loop += 1
+
+    return master_list
+
+
+def add_lists():
+    global lists
+    adding_lists = True
+    list_num = 1
+    while adding_lists:
+        list = input(f"Enter the full path of list number {list_num} you wish to add: ")
+        list = create_list(list)
+        lists.append(list)
+        if list_num < 2:
+            list_num += 1
+        else:
+            more_lists = input("Do you want to add more lists? (y/n): ")
+            more_lists = more_lists.lower()
+            more_lists = more_lists.strip()
+            more_lists = more_lists[0]
+            if more_lists == "n":
+                adding_lists = False
+            else:
+                list_num += 1
+    return lists
+
+
+def save_to_file(merged_list):
+    file_name = input(f"Enter the full path where you would like to save the file: ")
+    with open(file_name, "w") as opened_file:
+        for i in merged_list:
+            opened_file.write(i + "\n")
+    print(f"your merged list {file_name} has successfully been saved.")
+
+
+def main():
+    add_lists()
+    merged_list = merge_lists(*lists)
+    save_to_file(merged_list)
+
+
+if __name__ == "__main__":
+    main()
